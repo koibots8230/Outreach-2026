@@ -25,5 +25,8 @@ public class Shooter extends SubsystemBase {
         motor = new SparkMax(ShooterConstants.MOTOR_ID, MotorType.kBrushless);
         motorConfig = new SparkMaxConfig();
         motorConfig.idleMode(IdleMode.kCoast);
+
+        motor.configure(
+            motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 }
