@@ -5,7 +5,7 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Volts;
 
 import com.revrobotics.spark.SparkMax;
-
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.epilogue.Logged;
@@ -17,12 +17,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexerConstants;
-import com.revrobotics.spark.ResetMode;
-import com.revrobotics.spark.PersistMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.ResetMode;
+import com.revrobotics.PersistMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 
-
+@Logged
 public class Indexer extends SubsystemBase {
 
     @NotLogged private final SparkMax motor;
@@ -32,7 +33,7 @@ public class Indexer extends SubsystemBase {
     private AngularVelocity velocity;
     private Current current;
 
-    private double setpoint;
+    private AngularVelocity setpoint;
 
     private final DigitalInput distanceSensor;
 
@@ -44,7 +45,7 @@ public class Indexer extends SubsystemBase {
         config.idleMode(IdleMode.kBrake);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        distanceSensor = new DigitalInput(ClimberConstants.DISTANCE_SWITCH_PORT);
+        distanceSensor = new DigitalInput(IndexerConstants.DISTANCE_SWITCH_PORT);
     }
 
        public void periodic(){
@@ -66,7 +67,8 @@ public class Indexer extends SubsystemBase {
    }
 
    public Boolean ballIsSensed() {
-    return distanceSensor.get() == 1;
-   }
+    return distanceSensor.get();
    
+}
+
 }

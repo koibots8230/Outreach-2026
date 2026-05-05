@@ -11,8 +11,6 @@ import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
-import frc.lib.util.FeedforwardGains;
-import frc.lib.util.PIDGains;
 
 public class Constants {
     public static class RobotConstants{
