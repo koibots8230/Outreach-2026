@@ -5,4 +5,7 @@
 package frc.robot;
 
 public final class Constants {
+    public static class ShooterConstants {
+        public static final int MOTOR_ID = 10;
+    }
 }
