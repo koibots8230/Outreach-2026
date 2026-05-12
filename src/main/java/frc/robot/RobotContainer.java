@@ -4,15 +4,34 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.RPM;
+
+import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.*;
 
 public class RobotContainer {
-  public RobotContainer() {
+  @NotLogged private final XboxController controller;
+  private final Shooter shooter;
+
+  public RobotContainer(boolean isReal) {
+    shooter = new Shooter();
+    controller = new XboxController(0);
+
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    Trigger shootTrigger = new Trigger(() -> controller.getRightTriggerAxis() > 0.15);
+    shootTrigger.onTrue(shooter.setVelocityCommand(ShooterConstants.SHOOTER_SPEED));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
