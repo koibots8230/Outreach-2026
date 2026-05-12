@@ -9,7 +9,8 @@ import edu.wpi.first.epilogue.NotLogged;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -19,15 +20,13 @@ import frc.robot.Constants.ShooterConstants;
 @Logged
 public class Shooter extends SubsystemBase {
     
-    private final Spark motor;
-    private final SparkMaxConfig motorConfig;
+    private final SparkMax motor;
+    private final SparkMaxConfig config;
 
     public Shooter() {
-        motor = new SparkMax(ShooterConstants.MOTOR_ID, MotorType.kBrushless);
-        motorConfig = new SparkMaxConfig();
-        motorConfig.idleMode(IdleMode.kCoast);
-
-        motor.configure(
-            motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor = new SparkMax(IntakeConstants.MOTOR_ID, MotorType.kBrushless);
+        config = new SparkMaxConfig();
+        config.smartCurrentLimit((int) IntakeConstants.CURRENT_LIMIT.in(Amps));
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 }
