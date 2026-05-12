@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 @Logged
 public class Shooter extends SubsystemBase {
@@ -24,9 +27,8 @@ public class Shooter extends SubsystemBase {
     private final SparkMaxConfig config;
 
     public Shooter() {
-        motor = new SparkMax(IntakeConstants.MOTOR_ID, MotorType.kBrushless);
+        motor = new SparkMax(ShooterConstants.MOTOR_ID, MotorType.kBrushless);
         config = new SparkMaxConfig();
-        config.smartCurrentLimit((int) IntakeConstants.CURRENT_LIMIT.in(Amps));
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 }
