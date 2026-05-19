@@ -29,6 +29,10 @@ public class Shooter extends SubsystemBase {
     private final SparkMax motor;
     private final SparkMaxConfig config;
     @NotLogged private SparkClosedLoopController motorController;
+    private Voltage voltage;
+    private AngularVelocity velocity;
+    private Current current;
+    private AngularVelocity setpoint;
 
     public Shooter() {
         motor = new SparkMax(ShooterConstants.MOTOR_ID, MotorType.kBrushless);
@@ -37,6 +41,23 @@ public class Shooter extends SubsystemBase {
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         motorController = motor.getClosedLoopController();
+
+        voltage = Volts.of(0);
+        velocity = RPM.of(0);
+        current = Amps.of(0);
+        setpoint = RPM.of(0);
+    }
+
+    @Override
+    public void periodic() {
+        voltage = Volts.of(motor.getAppliedOutput() * motor.getBusVoltage());
+        velocity = RPM.of(motor.getEncoder().getVelocity());
+        current = Amps.of(motor.getOutputCurrent());
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        velocity = setpoint;
     }
 
     private void shoot(AngularVelocity velocity) {
